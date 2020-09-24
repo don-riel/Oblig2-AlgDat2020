@@ -43,10 +43,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int endringer;         // antall endringer i listen
 
     public DobbeltLenketListe() {
-        throw new UnsupportedOperationException();
+        this.antall = 0;
+        this.endringer = 0;
+        /*throw new UnsupportedOperationException();*/
     }
 
     public DobbeltLenketListe(T[] a) {
+
         throw new UnsupportedOperationException();
     }
 
@@ -56,12 +59,14 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public int antall() {
-        throw new UnsupportedOperationException();
+        return antall;
+        /*throw new UnsupportedOperationException();*/
     }
 
     @Override
     public boolean tom() {
-        throw new UnsupportedOperationException();
+        return antall == 0;
+        /*throw new UnsupportedOperationException();*/
     }
 
     @Override
