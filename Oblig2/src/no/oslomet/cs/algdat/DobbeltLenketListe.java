@@ -4,6 +4,7 @@ package no.oslomet.cs.algdat;
 ////////////////// class DobbeltLenketListe //////////////////////////////
 
 
+import java.sql.SQLOutput;
 import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
@@ -49,41 +50,39 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         /*throw new UnsupportedOperationException();*/
     }
 
+    private T[] arr;
+
     @SuppressWarnings("unchecked")
     public DobbeltLenketListe(T[] a) {
         if(a == null) {
             throw new NullPointerException("Tabellen er null");
         }
-        T[] arr = (T[]) new Object[a.length];
+        arr = (T[]) new Object[a.length];
         for(T verdi : a) {
             if(verdi != null) {
                 arr[antall] = verdi;
                 antall++;
             }
         }
-
         int lengde = arr.length;
         if(lengde == 0) {
-            hode = hale = null;
+            hode = null;
+            hale = null;
         }
-        else if(lengde == 1) {
-            if(a[0] != null) {
-                hode =  hale = new Node<>(a[0]);
-            }
 
-        }
-        else {
-            for(int i = 0; i < lengde; i++) {
-                if(i == 0) {
-                    hode = new Node(arr[i],null, new Node(arr[i+1]));
-                }
-                else if(i == lengde-1) {
-                    hale = new Node<>(arr[i], new Node<>(arr[i-1]), null);
-                }
-                else {
-                    Node n = new Node(arr[i], new Node(arr[i-1]), new Node(arr[i+1]));
-                }
-            }
+        for(int i = 0; i < lengde; i++) {
+           Node ny = new Node(a[i]);
+           if(hode == null) {
+               hode = ny;
+               hale = ny;
+               hode.forrige = null;
+               hale.neste = null;
+           } else {
+               hale.neste = ny;
+               ny.forrige = hale;
+               hale = ny;
+               hale.neste = null;
+           }
         }
         /*throw new UnsupportedOperationException();*/
     }
