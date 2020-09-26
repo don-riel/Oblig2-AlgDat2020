@@ -71,18 +71,21 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
 
         for(int i = 0; i < lengde; i++) {
-           Node ny = new Node(a[i]);
-           if(hode == null) {
+            if(a[i] == null) {
+                continue;
+            }
+            Node ny = new Node(a[i]);
+            if(hode == null) {
                hode = ny;
                hale = ny;
                hode.forrige = null;
                hale.neste = null;
-           } else {
+            } else {
                hale.neste = ny;
                ny.forrige = hale;
                hale = ny;
                hale.neste = null;
-           }
+            }
         }
         /*throw new UnsupportedOperationException();*/
     }
