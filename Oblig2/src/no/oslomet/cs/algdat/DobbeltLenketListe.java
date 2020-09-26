@@ -142,7 +142,43 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T hent(int indeks) {
-        throw new UnsupportedOperationException();
+        T verdi;
+        if(antall == 0) {
+            throw new IndexOutOfBoundsException("Tom liste");
+        }
+        try {
+            indeksKontroll(indeks, false);
+            verdi = finnNode(indeks).verdi;
+        } catch (IndexOutOfBoundsException e) {
+            throw e;
+        }
+        return verdi;
+    }
+
+    private Node<T> finnNode(int indeks) {
+        Node current = null;
+        if(antall == 1 && indeks == 0) {
+            current = hode;
+            return current;
+        }
+        if(indeks == antall-1) {
+             return hale;
+
+        }
+        if(indeks <= (antall/2)) {
+            current = hode;
+            for(int i = 0; i < indeks; i++)  {
+                current = current.neste;
+            }
+        }
+        if(indeks > (antall/2)) {
+            current = hale;
+            for(int i = antall-1; i > indeks; i--)  {
+                current = current.forrige;
+            }
+        }
+
+        return current;
     }
 
     @Override
