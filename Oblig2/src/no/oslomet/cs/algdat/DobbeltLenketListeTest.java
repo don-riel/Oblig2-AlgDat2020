@@ -170,7 +170,6 @@ class DobbeltLenketListeTest {
                 antallFeil++;
             }
         }
-
         liste = new DobbeltLenketListe<>();
 
         if (!liste.toString().equals("[]")) {
