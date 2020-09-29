@@ -173,7 +173,28 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void leggInn(int indeks, T verdi) {
-        throw new UnsupportedOperationException();
+
+        //handler for null verdi
+        if(verdi == null) {
+            //kode
+        }
+
+        //handler for out of bounds indeks
+        try {
+            indeksKontroll(indeks, false);
+        } catch (IndexOutOfBoundsException e) {
+            throw e;
+        }
+
+        //bruk finnNode(indeks) til å finne noden som skal erstattes??
+        Node<T> r = finnNode(indeks);
+        Node<T> q = new Node<>(verdi);
+        Node<T> p = r.forrige;
+
+        //opdater node pekere
+
+
+        /*throw new UnsupportedOperationException();*/
     }
 
     @Override
