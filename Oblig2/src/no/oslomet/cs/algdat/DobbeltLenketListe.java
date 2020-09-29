@@ -187,23 +187,34 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T oppdater(int indeks, T nyverdi) {
+        T returVerdi;
+
         //bruk tre variabler p,q,r
         //p == noden som skal til venstre
         //q == ny node
         //r == noden som skal til høyre
 
-        //bruk finnNode(indeks) til å finne noden som skal erstattes
-        Node<T> r = finnNode(indeks);
-        T returVerdi = r.verdi;
+        //test oppgave3j. ikke tillat nullverdier i metodens parameter
+        if(nyverdi == null) {
+            throw new NullPointerException("Ikke tillate med nullverdier i oppdater metoden!");
+        }
+        //handle indeks out of bounds
+        try {
+            indeksKontroll(indeks, false);
+            //bruk finnNode(indeks) til å finne noden som skal erstattes
+            Node<T> r = finnNode(indeks);
+            returVerdi = r.verdi;
 
-        Node<T> p = r.forrige;
-        Node<T> q = new Node<>(nyverdi);
-
-        //opdater node pekere
-        q.forrige = p;
-        q.neste = r;
-        p.neste = q;
-        r.forrige = q;
+            Node<T> p = r.forrige;
+            Node<T> q = new Node<>(nyverdi);
+            //opdater node pekere
+            q.forrige = p;
+            q.neste = r;
+            p.neste = q;
+            r.forrige = q;
+        } catch (IndexOutOfBoundsException e) {
+            throw e;
+        }
 
         return returVerdi;
         /*throw new UnsupportedOperationException();*/
