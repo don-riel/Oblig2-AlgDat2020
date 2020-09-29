@@ -227,15 +227,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         //peker starter fra "hode" og går til neste node på hver iterasjon i en løkke
         Node<T> peker = hode;
 
-
         //for løkke for som skal kjøre til verdiet er funnet
         for(int i = 0; i < antall; i++) {
-            //sammenlign peker verdi mot verdi fra metodens parameter
-
-            //retur "i" i for løkke hvis verdiet finnes, -1 hvis ikke
+            if(peker.verdi.equals(verdi)) { //sammenlign peker verdi mot verdi fra metodens parameter
+                return i;                   //retur "i" fra for løkke hvis verdiet finnes
+            }
+            peker = peker.neste;            //retur "-1" hvis det ikke finnes
         }
-
-        throw new UnsupportedOperationException();
+        return -1;
+        /*throw new UnsupportedOperationException();*/
     }
 
     @Override
