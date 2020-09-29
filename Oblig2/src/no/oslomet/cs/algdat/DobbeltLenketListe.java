@@ -176,23 +176,20 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         //handler for null verdi
         if(verdi == null) {
-            //kode
+            throw new NullPointerException("Ikke tillage med nullverdier i metoden!");
         }
-
         //handler for out of bounds indeks
         try {
             indeksKontroll(indeks, false);
+            //bruk finnNode(indeks) til å finne noden som skal erstattes??
+            Node<T> r = finnNode(indeks);
+            Node<T> q = new Node<>(verdi);
+            Node<T> p = r.forrige;
+
+            //opdater node pekere
         } catch (IndexOutOfBoundsException e) {
             throw e;
         }
-
-        //bruk finnNode(indeks) til å finne noden som skal erstattes??
-        Node<T> r = finnNode(indeks);
-        Node<T> q = new Node<>(verdi);
-        Node<T> p = r.forrige;
-
-        //opdater node pekere
-
 
         /*throw new UnsupportedOperationException();*/
     }
