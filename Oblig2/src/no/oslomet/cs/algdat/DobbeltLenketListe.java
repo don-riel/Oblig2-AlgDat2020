@@ -74,7 +74,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             if(a[i] == null) {
                 continue;
             }
-            Node ny = new Node(a[i]);
+            Node<T> ny = new Node(a[i]);
             if(hode == null) {
                hode = ny;
                hale = ny;
@@ -111,7 +111,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         if(verdi == null) {
            throw new NullPointerException("Null verdier ikke tillat!");
         } else {
-            Node ny = new Node(verdi);
+            Node<T> ny = new Node(verdi);
             antall++;
             if(hode == null) {
                 hode = ny;
@@ -187,8 +187,26 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T oppdater(int indeks, T nyverdi) {
+        //bruk tre variabler p,q,r
+        //p == noden som skal til venstre
+        //q == ny node
+        //r == noden som skal til høyre
 
-        throw new UnsupportedOperationException();
+        //bruk finnNode(indeks) til å finne noden som skal erstattes
+        Node<T> r = finnNode(indeks);
+        T returVerdi = r.verdi;
+
+        Node<T> p = r.forrige;
+        Node<T> q = new Node<>(nyverdi);
+
+        //opdater node pekere
+        q.forrige = p;
+        q.neste = r;
+        p.neste = q;
+        r.forrige = q;
+
+        return returVerdi;
+        /*throw new UnsupportedOperationException();*/
     }
 
     @Override
