@@ -165,6 +165,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 hale = ny;
                 hale.neste = null;
             }
+            endringer++;
             return true;
         }
 
@@ -183,37 +184,31 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             throw new IndexOutOfBoundsException(indeks);
         }
         else {
-            if(antall == 0) {       //sjekk hvis listen er tom
-                leggInn(verdi);     //leggInn() metode legger nye noder bakerst
+            if(antall == 0 || indeks == antall) { //sjekk hvis listen er tom eller hvis nye node skal legges bakerst
+                leggInn(verdi);                 //leggInn() metode legger nye noder bakerst eller først hvis listen er tom
             }
             else {
                 Node<T> r;                      //blir høyre node
                 r = finnNode(indeks);           //bruk finnNode(indeks) til å finne noden som skal erstattes??
-                Node<T> q;                      //ny node
+                Node<T> q = new Node<>(verdi);  //ny node
                 Node<T> p = r.forrige;         //venstre node
 
                 //opdater node pekere
                 if(indeks == 0) {
-                    q = new Node<>(verdi);
-                    antall++;
                     q.forrige = null;
                     q.neste = r;
                     r.forrige = q;
                     hode = q;
                 }
-                else if(indeks == antall) { //legg ny node bakerst hvis true
-                    leggInn(verdi);
-                }
                 else {
-                    q = new Node<>(verdi);
-                    antall++;
                     q.forrige = p;
                     q.neste = r;
                     p.neste = q;
                     r.forrige = q;
                 }
+                antall++;
+                endringer++;
             }
-            endringer++;
         }
 
         /*throw new UnsupportedOperationException();*/
