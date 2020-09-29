@@ -176,45 +176,45 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         //handler for null verdi
         if(verdi == null) {
-            throw new NullPointerException("Ikke tillage med nullverdier i metoden!");
+            throw new NullPointerException("Ikke tillatt med nullverdier i metoden!");
         }
         //handler for out of bounds indeks
         if(indeks < 0 || indeks > antall) {
             throw new IndexOutOfBoundsException(indeks);
         }
         else {
-            //bruk finnNode(indeks) til å finne noden som skal erstattes??
-            Node<T> r = finnNode(indeks);       //blir høyre node
-            if(r == null) {
-                leggInn(verdi);
+            if(antall == 0) {       //sjekk hvis listen er tom
+                leggInn(verdi);     //leggInn() metode legger nye noder bakerst
             }
             else {
-                Node<T> q = new Node<>(verdi); //ny node
-                antall++;
+                Node<T> r;                      //blir høyre node
+                r = finnNode(indeks);           //bruk finnNode(indeks) til å finne noden som skal erstattes??
+                Node<T> q;                      //ny node
                 Node<T> p = r.forrige;         //venstre node
+
                 //opdater node pekere
                 if(indeks == 0) {
+                    q = new Node<>(verdi);
+                    antall++;
                     q.forrige = null;
                     q.neste = r;
                     r.forrige = q;
                     hode = q;
                 }
-                else if(indeks == antall) {
-                    q.neste = null;
-                    q.forrige = p;
-                    p.neste = q;
-                    hale = q;
+                else if(indeks == antall) { //legg ny node bakerst hvis true
+                    leggInn(verdi);
                 }
                 else {
+                    q = new Node<>(verdi);
+                    antall++;
                     q.forrige = p;
                     q.neste = r;
                     p.neste = q;
                     r.forrige = q;
                 }
-
             }
+            endringer++;
         }
-
 
         /*throw new UnsupportedOperationException();*/
     }
