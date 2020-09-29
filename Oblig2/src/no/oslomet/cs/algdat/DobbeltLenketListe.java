@@ -156,22 +156,21 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     private Node<T> finnNode(int indeks) {
-        Node current = null;
+        Node<T> current = null;
         if(antall == 1 && indeks == 0) {
             current = hode;
             return current;
         }
-        if(indeks == antall-1) {
+        else if(indeks == antall-1) {
              return hale;
-
         }
-        if(indeks <= (antall/2)) {
+        else if(indeks <= (antall/2)) {
             current = hode;
             for(int i = 0; i < indeks; i++)  {
                 current = current.neste;
             }
         }
-        if(indeks > (antall/2)) {
+        else if(indeks > (antall/2)) {
             current = hale;
             for(int i = antall-1; i > indeks; i--)  {
                 current = current.forrige;
@@ -188,6 +187,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T oppdater(int indeks, T nyverdi) {
+
         throw new UnsupportedOperationException();
     }
 
@@ -214,15 +214,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             str.append("]");
         }
         else if(hode == hale) {
-            str.append(current.verdi + "]");
+            str.append(current.verdi).append("]");
         }
         else {
-            str.append(current.verdi + ",");
+            str.append(current.verdi).append(",");
             while(current.neste != hale) {
                 current = current.neste;
-                str.append(" " + current.verdi + ",");
+                str.append(" ").append(current.verdi).append(",");
             }
-            str.append(" " + hale.verdi + "]");
+            str.append(" ").append(hale.verdi).append("]");
         }
 
         return str.toString();
@@ -236,15 +236,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             str.append("]");
         }
         else if(hode == hale) {
-            str.append(current.verdi + "]");
+            str.append(current.verdi).append("]");
         }
         else {
-            str.append(current.verdi + ",");
+            str.append(current.verdi).append(",");
             while(current.forrige != hode) {
                 current = current.forrige;
-                str.append(" " + current.verdi + ",");
+                str.append(" ").append(current.verdi).append(",");
             }
-            str.append(" " + hode.verdi + "]");
+            str.append(" ").append(hode.verdi).append("]");
         }
 
         return str.toString();
