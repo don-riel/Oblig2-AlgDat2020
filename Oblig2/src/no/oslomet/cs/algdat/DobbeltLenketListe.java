@@ -223,6 +223,18 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public int indeksTil(T verdi) {
+        //en node peker for sammenligning med verdi
+        //peker starter fra "hode" og går til neste node på hver iterasjon i en løkke
+        Node<T> peker = hode;
+
+
+        //for løkke for som skal kjøre til verdiet er funnet
+        for(int i = 0; i < antall; i++) {
+            //sammenlign peker verdi mot verdi fra metodens parameter
+
+            //retur "i" i for løkke hvis verdiet finnes, -1 hvis ikke
+        }
+
         throw new UnsupportedOperationException();
     }
 
