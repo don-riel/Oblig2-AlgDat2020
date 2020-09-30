@@ -229,9 +229,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public T hent(int indeks) {
         T verdi;
-        if(antall == 0) {
-            throw new IndexOutOfBoundsException("Tom liste");
-        }
         try {
             indeksKontroll(indeks, false);
             verdi = finnNode(indeks).verdi;
@@ -241,8 +238,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         return verdi;
     }
 
-    private Node<T> finnNode(int indeks) {
+    public Node<T> finnNode(int indeks) {
         Node<T> current = null;
+
+        if(antall == 0) {
+            throw new IndexOutOfBoundsException("Tom liste");
+        }
         if(antall == 1 && indeks == 0) {
             current = hode;
             return current;
@@ -262,7 +263,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 current = current.forrige;
             }
         }
-
         return current;
     }
 
@@ -305,6 +305,28 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean fjern(T verdi) {
+        Node<T> toRemove = null;
+        boolean funnet = false;
+
+        int v = 0;          //venstre peker
+        int h = antall-1;   //høyre peker
+        Node<T> vPeker = hode;
+        Node<T> hPeker = hale;
+
+        while(v != h) {
+            if(vPeker.verdi == verdi) {     //venstre peker finner verdiet
+                //remove vPeker
+            }
+            if(hPeker.verdi == verdi) {     //høyre peker finner verdiet
+                //oppdater toRemove node
+            }
+            v++;
+            v--;
+        }
+        if(funnet == true) {                //verdiet finnes på høyre side
+            //remove hPeker
+        }
+
         return false;
         /*throw new UnsupportedOperationException();*/
     }
