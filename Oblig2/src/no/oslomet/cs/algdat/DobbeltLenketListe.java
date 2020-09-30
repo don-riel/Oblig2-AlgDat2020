@@ -322,7 +322,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             //oppdater peker til venstre og høyre node
             p.neste = r;
             r.forrige = p;
-
+            antall--;
             return q.verdi;
         } catch (IndexOutOfBoundsException e) {
             throw e;
