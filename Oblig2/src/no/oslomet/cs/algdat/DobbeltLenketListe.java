@@ -4,16 +4,9 @@ package no.oslomet.cs.algdat;
 ////////////////// class DobbeltLenketListe //////////////////////////////
 
 
-import java.sql.SQLOutput;
 import java.util.Comparator;
-import java.util.ConcurrentModificationException;
-import java.util.NoSuchElementException;
-import java.util.StringJoiner;
 
 import java.util.Iterator;
-import java.util.Objects;
-import java.util.function.Predicate;
-
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
@@ -303,15 +296,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         /*throw new UnsupportedOperationException();*/
     }
 
+
+
     @Override
     public boolean fjern(T verdi) {
-        Node<T> toRemove = null;
-        boolean funnet = false;
         int v = 0;          //venstre peker
         int h = antall;   //høyre peker
-        int hIndeks = 0;
         Node<T> vPeker = hode;
-        Node<T> hPeker = hale;
         Node<T> p,r;
 
         //[]
@@ -330,13 +321,22 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             return false;
         }
 
-        while(v < h) {
+        while(v != h) {
             if(vPeker.verdi.equals(verdi)) {
                 //[1,2] remove 1
                 if(v == 0) {
                     r = vPeker.neste;
                     r.forrige = null;
                     hode = r;
+                    antall--;
+                    endringer++;
+                    return true;
+                }
+                //[1,2] remove 2
+                if(v == antall-1) {
+                    p = vPeker.forrige;
+                    p.neste = null;
+                    hale = p;
                     antall--;
                     endringer++;
                     return true;
@@ -350,35 +350,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 endringer++;
                 return true;
             }
-            //[1,2] remove 2
-            if(hPeker.verdi.equals(verdi)) {
-                toRemove = hPeker;
-                hIndeks = h;
-                funnet = true;
-            }
             v++;
-            h--;
             vPeker = vPeker.neste;
-            hPeker = hPeker.forrige;
         }
-        if(funnet) {
-            if(antall == hIndeks) {
-                p = toRemove.forrige;
-                p.neste = null;
-                hale = p;
-                antall--;
-                endringer++;
-                return true;
-            }
-            p = vPeker.forrige;
-            r = vPeker.neste;
-            p.neste = r;
-            r.forrige = p;
-            antall--;
-            endringer++;
-            return true;
-        }
-
         return false;
         /*throw new UnsupportedOperationException();*/
     }
@@ -398,7 +372,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 endringer++;
                 return null;
             }
-            if(indeks == 0 && antall > 1) { //hvis hode skal fjernes
+            else if(indeks == 0 && antall > 1) { //hvis hode skal fjernes
                 q =  hode;
                 r = hode.neste;
                 r.forrige = null;
