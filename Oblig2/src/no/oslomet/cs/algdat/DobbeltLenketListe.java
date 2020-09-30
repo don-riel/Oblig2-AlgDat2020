@@ -6,7 +6,9 @@ package no.oslomet.cs.algdat;
 
 import java.util.Comparator;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
@@ -457,7 +459,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public Iterator<T> iterator() {
-        throw new UnsupportedOperationException();
+        Iterator<T> i = new DobbeltLenketListeIterator();
+        return i;
+        /*throw new UnsupportedOperationException();*/
     }
 
     public Iterator<T> iterator(int indeks) {
@@ -487,7 +491,27 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public T next(){
-            throw new UnsupportedOperationException();
+            T verdi;
+            // iteratorendringer == endringer
+            if(iteratorendringer != endringer) {
+                throw new ConcurrentModificationException("iteratorendringer er ikke like endringer");
+            }
+
+            //tom liste
+            if(denne != null) {
+                verdi = denne.verdi;
+                //hasNext() != true
+                if(hasNext()) {
+                    denne = denne.neste;
+                } else {
+                    throw new NoSuchElementException("Finnes ikke flere element i liste");
+                }
+            } else {
+                throw new NoSuchElementException("Tom liste!");
+            }
+
+            return verdi;
+           /* throw new UnsupportedOperationException();*/
         }
 
         @Override
