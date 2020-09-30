@@ -310,7 +310,19 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T fjern(int indeks) {
-        throw new UnsupportedOperationException();
+        //finn node, bruk finnNode(int indeks)
+        Node<T> q =finnNode(indeks);
+
+        //3 variabler, q = noden som skal fjernes, p=venstre node, r=høyre node
+        Node<T> p = q.forrige;
+        Node<T> r = q.neste;
+
+        //oppdater peker til venstre og høyre node
+        p.neste = r;
+        r.forrige = p;
+
+        return q.verdi;
+        /*throw new UnsupportedOperationException();*/
     }
 
     @Override
