@@ -307,24 +307,76 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public boolean fjern(T verdi) {
         Node<T> toRemove = null;
         boolean funnet = false;
-
         int v = 0;          //venstre peker
-        int h = antall-1;   //høyre peker
+        int h = antall;   //høyre peker
+        int hIndeks = 0;
         Node<T> vPeker = hode;
         Node<T> hPeker = hale;
+        Node<T> p,r;
 
-        while(v != h) {
-            if(vPeker.verdi == verdi) {     //venstre peker finner verdiet
-                //remove vPeker
+        //[]
+        if(antall == 0) {
+            return false;
+        }
+        //[1]
+        if(antall == 1) {
+            if(vPeker.verdi.equals(verdi)) {
+                hode = null;
+                hale = null;
+                antall--;
+                endringer++;
+                return true;
             }
-            if(hPeker.verdi == verdi) {     //høyre peker finner verdiet
-                //oppdater toRemove node
+            return false;
+        }
+
+        while(v < h) {
+            if(vPeker.verdi.equals(verdi)) {
+                //[1,2] remove 1
+                if(v == 0) {
+                    r = vPeker.neste;
+                    r.forrige = null;
+                    hode = r;
+                    antall--;
+                    endringer++;
+                    return true;
+                }
+                //[1,2,3] remove 2
+                p = vPeker.forrige;
+                r = vPeker.neste;
+                p.neste = r;
+                r.forrige = p;
+                antall--;
+                endringer++;
+                return true;
+            }
+            //[1,2] remove 2
+            if(hPeker.verdi.equals(verdi)) {
+                toRemove = hPeker;
+                hIndeks = h;
+                funnet = true;
             }
             v++;
-            v--;
+            h--;
+            vPeker = vPeker.neste;
+            hPeker = hPeker.forrige;
         }
-        if(funnet == true) {                //verdiet finnes på høyre side
-            //remove hPeker
+        if(funnet) {
+            if(antall == hIndeks) {
+                p = toRemove.forrige;
+                p.neste = null;
+                hale = p;
+                antall--;
+                endringer++;
+                return true;
+            }
+            p = vPeker.forrige;
+            r = vPeker.neste;
+            p.neste = r;
+            r.forrige = p;
+            antall--;
+            endringer++;
+            return true;
         }
 
         return false;
@@ -339,19 +391,28 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             //3 variabler, q = noden som skal fjernes, p=venstre node, r=høyre node
             Node<T> p, q, r;
             //oppdater peker til venstre og høyre node
+            if(indeks == 0 && antall == 1) {
+                hode = null;
+                hale = null;
+                antall--;
+                endringer++;
+                return null;
+            }
             if(indeks == 0 && antall > 1) { //hvis hode skal fjernes
                 q =  hode;
                 r = hode.neste;
                 r.forrige = null;
                 hode = r;
                 antall--;
+                endringer++;
             }
-            else if(indeks == antall - 1) { //hvis hale skal fjernes
+            else if(indeks == antall - 1 && antall > 1) { //hvis hale skal fjernes
                 q = hale;
                 p = hale.forrige;
                 p.neste = null;
                 hale = p;
                 antall--;
+                endringer++;
             }
             else {
                 q = finnNode(indeks);
@@ -360,6 +421,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 p.neste = r;
                 r.forrige = p;
                 antall--;
+                endringer++;
             }
             return q.verdi;
         } catch (IndexOutOfBoundsException e) {
