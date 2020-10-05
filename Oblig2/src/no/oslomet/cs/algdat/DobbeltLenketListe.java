@@ -409,7 +409,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void nullstill() {
-        throw new UnsupportedOperationException();
+        Node<T> current = hode;
+        while(current != null) {
+            fjern(0);
+            current = current.neste;
+        }
     }
 
     @Override
