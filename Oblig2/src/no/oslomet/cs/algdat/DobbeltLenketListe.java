@@ -45,14 +45,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         /*throw new UnsupportedOperationException();*/
     }
 
-    private T[] arr;
-
     @SuppressWarnings("unchecked")
     public DobbeltLenketListe(T[] a) {
         if(a == null) {
             throw new NullPointerException("Tabellen er null");
         }
-        arr = (T[]) new Object[a.length];
+        T[] arr = (T[]) new Object[a.length];
         for(T verdi : a) {
             if(verdi != null) {
                 arr[antall] = verdi;
@@ -74,40 +72,35 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                hode = ny;
                hale = ny;
                hode.forrige = null;
-               hale.neste = null;
             } else {
                hale.neste = ny;
                ny.forrige = hale;
                hale = ny;
-               hale.neste = null;
             }
+            hale.neste = null;
         }
         /*throw new UnsupportedOperationException();*/
     }
 
     public Liste<T> subliste(int fra, int til){
         Liste<T> liste = new DobbeltLenketListe<>();
-        try {
-            fratilKontroll(antall,fra,til);
-            //for løkke for å loope fra indeks "fra" til indeks "til"
-            //bruk en peker..
-            int peker = 0;
-            Node<T> current = hode;
-            for (int i = 0; i < antall; i++) {
-                //fra når peker == fra => begynn å lage nye noder
-                if(peker == fra) {
-                    while(peker != til ) {
-                        liste.leggInn(current.verdi);
-                        current = current.neste;
-                        peker++;
-                    }
-                    break;
+        fratilKontroll(antall,fra,til);
+        //for løkke for å loope fra indeks "fra" til indeks "til"
+        //bruk en peker..
+        int peker = 0;
+        Node<T> current = hode;
+        for (int i = 0; i < antall; i++) {
+            //fra når peker == fra => begynn å lage nye noder
+            if(peker == fra) {
+                while(peker != til ) {
+                    liste.leggInn(current.verdi);
+                    current = current.neste;
+                    peker++;
                 }
-                peker++;
-                current = current.neste;
+                break;
             }
-        } catch (IndexOutOfBoundsException | IllegalArgumentException e) {
-            throw e;
+            peker++;
+            current = current.neste;
         }
         return liste;
         /*throw new UnsupportedOperationException();*/
@@ -153,13 +146,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 hode = ny;
                 hale = ny;
                 hode.forrige = null;
-                hale.neste = null;
             } else {
                 hale.neste = ny;
                 ny.forrige = hale;
                 hale = ny;
-                hale.neste = null;
             }
+            hale.neste = null;
             endringer++;
             return true;
         }
@@ -419,7 +411,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder("[");
-        Node current = hode;
+        Node<T> current = hode;
         if(current == null) {
             str.append("]");
         }
@@ -441,7 +433,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     public String omvendtString() {
         StringBuilder str = new StringBuilder("[");
-        Node current = hale;
+        Node<T> current = hale;
         if(current == null) {
             str.append("]");
         }
