@@ -468,7 +468,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         /*throw new UnsupportedOperationException();*/
     }
 
-    public Iterator<T> iterator(int indeks) { throw new UnsupportedOperationException();
+    public Iterator<T> iterator(int indeks) {
+        try {
+            indeksKontroll(indeks, false);
+            Iterator<T> i = new DobbeltLenketListeIterator(indeks);
+            return i;
+        } catch (IndexOutOfBoundsException e) {
+            throw e;
+        }
+        /*throw new UnsupportedOperationException();*/
     }
 
     private class DobbeltLenketListeIterator implements Iterator<T>
